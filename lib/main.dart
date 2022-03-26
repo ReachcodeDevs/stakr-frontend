@@ -49,15 +49,16 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: ThemeCard(title: "test")
+      child: ThemeCard(title: "Climate Action", img: 'images/climateaction.jpeg')
     );
   }
 }
 
 class ThemeCard extends StatelessWidget {
-  const ThemeCard({Key? key, required this.title}) : super(key: key);
+  const ThemeCard({Key? key, required this.title, required this.img}) : super(key: key);
   
   final String title;
+  final String img;
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +68,10 @@ class ThemeCard extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Image.network(
-              'https://www.thoughtco.com/thmb/u0q_l5AO58jzsrNOdHqoPxpFnUE=/1885x1414/smart/filters:no_upscale()/wave-pattern-desert-landscape--oman-886145780-5c45542046e0fb00012ebabf.jpg',
+            Image(
+              image: AssetImage(img),
               fit: BoxFit.fill,
-              color: const Color.fromRGBO(255, 255, 255, 0.5),
+              color: Color.fromRGBO(255, 255, 255, 0.5),
               colorBlendMode: BlendMode.modulate
             ),
             // const Flexible(
@@ -84,8 +85,8 @@ class ThemeCard extends StatelessWidget {
             //     overflow: TextOverflow.visible,
             //     ),
             // ),
-            const Text(
-              "Climate Action",
+            Text(
+              title,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 50
