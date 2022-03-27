@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
   runApp(const MyApp());
 }
 
@@ -62,14 +70,25 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
-      children: const <Widget>[
-        SizedBox(
-          height: 200,
-          child: Card(),
+      children: <Widget>[
+        Container(
+          margin: const EdgeInsets.all(10),
+          child: Stack(
+            alignment: Alignment.center,
+            children: const <Widget>[
+              Image(image: AssetImage("images/Rectangle5.png")),
+            ],
+          ),
         ),
-        ThemeCategory(themeName: "Environment",),
-        ThemeCategory(themeName: "Health and Social",),
-        ThemeCategory(themeName: "Growth",),
+        const ThemeCategory(
+          themeName: "Environment",
+        ),
+        const ThemeCategory(
+          themeName: "Health and Social",
+        ),
+        const ThemeCategory(
+          themeName: "Growth",
+        ),
       ],
     );
   }
@@ -86,13 +105,25 @@ class ThemeCategory extends StatefulWidget {
 class _ThemeCategoryState extends State<ThemeCategory> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(widget.themeName),
-        ListView(shrinkWrap: true, children: const <Widget>[
-          Text("Hello")
-        ])]
-    );
+    return Column(children: [
+      Container(
+        child: Text(widget.themeName),
+        alignment: Alignment.centerLeft,
+        margin: EdgeInsets.all(10),
+      ),
+      Container(
+        child: ListView(
+          shrinkWrap: true,
+          children: const <Widget>[
+            ThemeCard(title: "Example", img: "images/climateaction.jpeg"),
+            ThemeCard(title: "Example2", img: "images/ex2.png")
+          ],
+          scrollDirection: Axis.horizontal,
+        ),
+        height: 200,
+        width: 350,
+      )
+    ]);
   }
 }
 
