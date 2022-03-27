@@ -75,8 +75,8 @@ class HomePage extends StatelessWidget {
           margin: const EdgeInsets.all(10),
           child: Stack(
             alignment: Alignment.center,
-            children: const <Widget>[
-              Image(image: AssetImage("images/Rectangle5.png")),
+            children: <Widget>[
+              const Image(image: AssetImage("images/Rectangle5.png"), fit: BoxFit.contain,),
             ],
           ),
         ),
@@ -120,7 +120,7 @@ class _ThemeCategoryState extends State<ThemeCategory> {
           ],
           scrollDirection: Axis.horizontal,
         ),
-        height: 200,
+        height: 100,
         width: 350,
       )
     ]);
@@ -160,7 +160,7 @@ class ThemeCard extends StatelessWidget {
           // ),
           Text(
             title,
-            style: const TextStyle(color: Colors.white, fontSize: 50),
+            style: const TextStyle(color: Colors.white, fontSize: 15),
           )
         ],
       ),
