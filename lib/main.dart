@@ -13,18 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Stakr',
       theme: ThemeData.dark(),
-      home: const Page(title: "Home", child: MyHomePage()),
-    );
-  }
-}
-
-class HomeView extends StatelessWidget {
-  const HomeView({ Key? key }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      
+      home: const Page(title: "Home", child: HomePage()),
     );
   }
 }
@@ -33,7 +22,8 @@ class Page extends StatelessWidget {
   final Widget child;
   final String title;
 
-  const Page({Key? key, required this.child, required this.title}) : super(key: key);
+  const Page({Key? key, required this.child, required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,23 +55,44 @@ class Page extends StatelessWidget {
 //   }
 // }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-        child: ThemeCard(
-            title: "Climate Action", img: 'images/climateaction.jpeg'));
+    return ListView(
+      shrinkWrap: true,
+      children: const <Widget>[
+        SizedBox(
+          height: 200,
+          child: Card(),
+        ),
+        ThemeCategory(themeName: "Environment",),
+        ThemeCategory(themeName: "Health and Social",),
+        ThemeCategory(themeName: "Growth",),
+      ],
+    );
+  }
+}
+
+class ThemeCategory extends StatefulWidget {
+  final String themeName;
+  const ThemeCategory({Key? key, required this.themeName}) : super(key: key);
+
+  @override
+  State<ThemeCategory> createState() => _ThemeCategoryState();
+}
+
+class _ThemeCategoryState extends State<ThemeCategory> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(widget.themeName),
+        ListView(shrinkWrap: true, children: const <Widget>[
+          Text("Hello")
+        ])]
+    );
   }
 }
 
