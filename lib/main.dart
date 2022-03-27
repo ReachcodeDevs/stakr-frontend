@@ -82,11 +82,11 @@ class HomePage extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
-              Image(
+              const Image(
                   image: AssetImage("images/Rectangle5.png"),
                   fit: BoxFit.contain,
               ),
-              Column(children: [
+              Column(children: const [
                 Text("Your Portfolio"),
                 Text("Total Donated"),
                 Text("Tokens Staked"),
@@ -94,23 +94,45 @@ class HomePage extends StatelessWidget {
               )],
           ),
         ),
-        const ThemeCategory(
+        ThemeCategory(
           themeName: "Environment",
+          themes: [
+            Theme("Climate Action", "images/climateAction.jpg"),
+            Theme("Life On Land", "images/lifeOnLand.jpg"),
+            Theme("Clean Energy", "images/cleanEnergy.jpg")
+          ]
         ),
-        const ThemeCategory(
+        ThemeCategory(
           themeName: "Health and Social",
+          themes: [
+            Theme("Education", "images/education.jpg"),
+            Theme("Food Poverty", "images/foodPoverty.jpg"),
+            Theme("Water & Sanitation", "images/water.jpg")
+          ]
         ),
-        const ThemeCategory(
+        ThemeCategory(
           themeName: "Growth",
+          themes: [
+            Theme("Creating Jobs", "images/creatingJobs.jpg"),
+            Theme("Infra-Structure", "images/infrastructure.jpg"),
+            Theme("Innovation", "images/innovation.jpg")
+          ]
         ),
       ],
     );
   }
 }
 
+class Theme {
+  String title;
+  String img;
+  Theme(this.title, this.img);
+}
+
 class ThemeCategory extends StatefulWidget {
   final String themeName;
-  const ThemeCategory({Key? key, required this.themeName}) : super(key: key);
+  final List themes;
+  const ThemeCategory({Key? key, required this.themeName, required this.themes}) : super(key: key);
 
   @override
   State<ThemeCategory> createState() => _ThemeCategoryState();
@@ -119,28 +141,27 @@ class ThemeCategory extends StatefulWidget {
 class _ThemeCategoryState extends State<ThemeCategory> {
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        child: Text(widget.themeName, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 24)),
-        alignment: Alignment.centerLeft,
-        margin: const EdgeInsets.all(10),
-      ),
-      Container(
-        child: ListView(
-          shrinkWrap: true,
-          children: const <Widget>[
-            ThemeCard(title: "Climate Action", img: "images/climateAction.jpg"),
-            ThemeCard(title: "Life On Land", img: "images/lifeOnLand.jpg"),
-            ThemeCard(title: "Clean Energy", img: "images/cleanEnergy.jpg"),
-            ThemeCard(title: "Education", img: "images/education.jpg"),
-            ThemeCard(title: "Food Poverty", img: "images/foodPoverty.jpg"),
-            ThemeCard(title: "Water & Sanitation", img: "images/water.jpg"),
-          ],
-          scrollDirection: Axis.horizontal,
-        ),
-        height: 100,
-        width: MediaQuery.of(context).size.width,
-      )
-    ]);
+    return Container(
+      margin: const EdgeInsets.only(left: 10),
+      child: Column(
+        children: [
+          Container(
+            child: Text(widget.themeName, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 24)),
+            alignment: Alignment.centerLeft,
+            margin: const EdgeInsets.fromLTRB(10, 20, 10, 5),
+          ),
+          SizedBox(
+            child: ListView.builder(
+              itemCount: widget.themes.length,
+              itemBuilder: (context, index) {
+                return ThemeCard(title: widget.themes[index].title, img: widget.themes[index].img,);
+              },
+              scrollDirection: Axis.horizontal,
+            ),
+            height: 100,
+            width: MediaQuery.of(context).size.width - 10,
+          )
+      ]),
+    );
   }
 }

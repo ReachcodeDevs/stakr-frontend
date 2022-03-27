@@ -68,6 +68,9 @@ flutter:
     - assets/images/education.jpg
     - assets/images/foodPoverty.jpg
     - assets/images/water.jpg
+    - assets/images/creatingJobs.jpg
+    - assets/images/infrastructure.jpg
+    - assets/images/innovation.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
