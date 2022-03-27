@@ -4,6 +4,8 @@ import 'package:flutter/painting.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'theme_card.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -21,7 +23,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Stakr',
-      theme: ThemeData.dark(),
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: 'Montserrat'
+      ),
       home: const Page(title: "Home", child: HomePage()),
     );
   }
@@ -116,9 +121,9 @@ class _ThemeCategoryState extends State<ThemeCategory> {
   Widget build(BuildContext context) {
     return Column(children: [
       Container(
-        child: Text(widget.themeName),
+        child: Text(widget.themeName, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 24)),
         alignment: Alignment.centerLeft,
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
       ),
       Container(
         child: ListView(
@@ -134,54 +139,8 @@ class _ThemeCategoryState extends State<ThemeCategory> {
           scrollDirection: Axis.horizontal,
         ),
         height: 100,
-        width: 350,
+        width: MediaQuery.of(context).size.width,
       )
     ]);
-  }
-}
-
-class ThemeCard extends StatelessWidget {
-  const ThemeCard({Key? key, required this.title, required this.img})
-      : super(key: key);
-
-  final String title;
-  final String img;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      semanticContainer: false,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Image(
-              image: AssetImage(img),
-              fit: BoxFit.fill,
-              color: const Color.fromRGBO(255, 255, 255, 0.5),
-              colorBlendMode: BlendMode.modulate),
-          // const Flexible(
-          //   child: Text('Add long text here',
-          //     style: TextStyle(
-          //       color: Colors.black,
-          //       fontSize: 50
-          //     ),
-          //     maxLines: 2,
-          //     softWrap: false,
-          //     overflow: TextOverflow.visible,
-          //     ),
-          // ),
-          Text(
-            title,
-            style: const TextStyle(color: Colors.white, fontSize: 15),
-          )
-        ],
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      elevation: 5,
-      margin: const EdgeInsets.all(10),
-    );
   }
 }
