@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/painting.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -76,8 +77,16 @@ class HomePage extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
-              const Image(image: AssetImage("images/Rectangle5.png"), fit: BoxFit.contain,),
-            ],
+              Image(
+                  image: AssetImage("images/Rectangle5.png"),
+                  fit: BoxFit.contain,
+              ),
+              Column(children: [
+                Text("Your Portfolio"),
+                Text("Total Donated"),
+                Text("Tokens Staked"),
+              ],
+              )],
           ),
         ),
         const ThemeCategory(
@@ -115,8 +124,12 @@ class _ThemeCategoryState extends State<ThemeCategory> {
         child: ListView(
           shrinkWrap: true,
           children: const <Widget>[
-            ThemeCard(title: "Example", img: "images/climateaction.jpeg"),
-            ThemeCard(title: "Example2", img: "images/ex2.png")
+            ThemeCard(title: "Climate Action", img: "images/climateAction.jpg"),
+            ThemeCard(title: "Life On Land", img: "images/lifeOnLand.jpg"),
+            ThemeCard(title: "Clean Energy", img: "images/cleanEnergy.jpg"),
+            ThemeCard(title: "Education", img: "images/education.jpg"),
+            ThemeCard(title: "Food Poverty", img: "images/foodPoverty.jpg"),
+            ThemeCard(title: "Water & Sanitation", img: "images/water.jpg"),
           ],
           scrollDirection: Axis.horizontal,
         ),
@@ -137,7 +150,7 @@ class ThemeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      semanticContainer: true,
+      semanticContainer: false,
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: Stack(
         alignment: Alignment.center,
