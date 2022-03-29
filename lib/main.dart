@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/painting.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -27,8 +26,9 @@ class MyApp extends StatelessWidget {
       home: const Page(title: "Home", child: HomePage()),
       routes: <String, WidgetBuilder>{
         '/portfolio': (BuildContext context) => const Page(child: PortfolioPage(), title: "Stake Breakdown"),
-        '/theme': (context) => const Page(child: ThemePage(), title: ""),
-        'stake':(context) => const Page(child: StakePage(), title: "",)
+        '/theme': (BuildContext context) => const Page(child: ThemePage(), title: ""),
+        '/stake':(BuildContext context) => const Page(child: StakePage(), title: "",),
+        '/donations': (BuildContext context) => const Page(child: DonationsPage(), title: "Donation History",)
       },
     );
   }
@@ -46,6 +46,25 @@ class Page extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: child,
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Colors.grey,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Account',
+            backgroundColor: Colors.grey,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_wallet_rounded),
+            label: 'Donations',
+            backgroundColor: Colors.grey,
+          ),
+        ],
+        ),
     );
   }
 }
@@ -88,13 +107,30 @@ class HomePage extends StatelessWidget {
                 image: AssetImage("images/Rectangle5.png"),
                 fit: BoxFit.contain,
               ),
-              Column(
-                children: const [
-                  Text("Your Portfolio"),
-                  Text("Total Donated"),
-                  Text("Tokens Staked"),
+              SizedBox(child: Row(
+                children: [
+                  Column(children: [
+                    const Text("Total Donated "),
+                    Container(child: RichText(text: 
+                    const TextSpan(children: 
+                    [
+                      WidgetSpan(child: Icon(Icons.currency_pound_rounded, size: 20,)),
+                      TextSpan(text: "365", style: TextStyle(color: Colors.white)),
+                    ])), margin: const EdgeInsets.all(10),) 
+                  ],),
+                   Column(children: [
+                    const Text("Tokens Staked"),
+                    Container(child: RichText(text: 
+                    const TextSpan(children: 
+                    [
+                      WidgetSpan(child: Icon(Icons.token, size: 20,)),
+                      TextSpan(text: "100", style: TextStyle(color: Colors.white)),
+                    ])), margin: const EdgeInsets.all(10),) 
+                  ],),
                 ],
-              )
+              ),
+              width: 210,
+              height: 100,)
             ],
           ),
         ),
@@ -196,6 +232,16 @@ class StakePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       
+    );
+  }
+}
+
+class DonationsPage extends StatelessWidget {
+  const DonationsPage({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
     );
   }
 }
