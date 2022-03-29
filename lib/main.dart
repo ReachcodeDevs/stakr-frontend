@@ -23,11 +23,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Stakr',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        fontFamily: 'Montserrat'
-      ),
+      theme: ThemeData(brightness: Brightness.dark, fontFamily: 'Montserrat'),
       home: const Page(title: "Home", child: HomePage()),
+      routes: <String, WidgetBuilder>{
+        '/portfolio': (BuildContext context) => const Page(child: PortfolioPage(), title: "Stake Breakdown"),
+        '/theme': (context) => const Page(child: ThemePage(), title: ""),
+        'stake':(context) => const Page(child: StakePage(), title: "",)
+      },
     );
   }
 }
@@ -83,41 +85,34 @@ class HomePage extends StatelessWidget {
             alignment: Alignment.center,
             children: <Widget>[
               const Image(
-                  image: AssetImage("images/Rectangle5.png"),
-                  fit: BoxFit.contain,
+                image: AssetImage("images/Rectangle5.png"),
+                fit: BoxFit.contain,
               ),
-              Column(children: const [
-                Text("Your Portfolio"),
-                Text("Total Donated"),
-                Text("Tokens Staked"),
-              ],
-              )],
+              Column(
+                children: const [
+                  Text("Your Portfolio"),
+                  Text("Total Donated"),
+                  Text("Tokens Staked"),
+                ],
+              )
+            ],
           ),
         ),
-        ThemeCategory(
-          themeName: "Environment",
-          themes: [
-            Theme("Climate Action", "images/climateAction.jpg"),
-            Theme("Life On Land", "images/lifeOnLand.jpg"),
-            Theme("Clean Energy", "images/cleanEnergy.jpg")
-          ]
-        ),
-        ThemeCategory(
-          themeName: "Health and Social",
-          themes: [
-            Theme("Education", "images/education.jpg"),
-            Theme("Food Poverty", "images/foodPoverty.jpg"),
-            Theme("Water & Sanitation", "images/water.jpg")
-          ]
-        ),
-        ThemeCategory(
-          themeName: "Growth",
-          themes: [
-            Theme("Creating Jobs", "images/creatingJobs.jpg"),
-            Theme("Infra-Structure", "images/infrastructure.jpg"),
-            Theme("Innovation", "images/innovation.jpg")
-          ]
-        ),
+        ThemeCategory(themeName: "Environment", themes: [
+          Theme("Climate Action", "images/climateAction.jpg"),
+          Theme("Life On Land", "images/lifeOnLand.jpg"),
+          Theme("Clean Energy", "images/cleanEnergy.jpg")
+        ]),
+        ThemeCategory(themeName: "Health and Social", themes: [
+          Theme("Education", "images/education.jpg"),
+          Theme("Food Poverty", "images/foodPoverty.jpg"),
+          Theme("Water & Sanitation", "images/water.jpg")
+        ]),
+        ThemeCategory(themeName: "Growth", themes: [
+          Theme("Creating Jobs", "images/creatingJobs.jpg"),
+          Theme("Infra-Structure", "images/infrastructure.jpg"),
+          Theme("Innovation", "images/innovation.jpg")
+        ]),
       ],
     );
   }
@@ -132,7 +127,8 @@ class Theme {
 class ThemeCategory extends StatefulWidget {
   final String themeName;
   final List themes;
-  const ThemeCategory({Key? key, required this.themeName, required this.themes}) : super(key: key);
+  const ThemeCategory({Key? key, required this.themeName, required this.themes})
+      : super(key: key);
 
   @override
   State<ThemeCategory> createState() => _ThemeCategoryState();
@@ -143,25 +139,63 @@ class _ThemeCategoryState extends State<ThemeCategory> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 10),
-      child: Column(
-        children: [
-          Container(
-            child: Text(widget.themeName, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 24)),
-            alignment: Alignment.centerLeft,
-            margin: const EdgeInsets.fromLTRB(10, 20, 10, 5),
+      child: Column(children: [
+        Container(
+          child: Text(widget.themeName,
+              style:
+                  const TextStyle(fontWeight: FontWeight.w600, fontSize: 24)),
+          alignment: Alignment.centerLeft,
+          margin: const EdgeInsets.fromLTRB(10, 20, 10, 5),
+        ),
+        SizedBox(
+          child: ListView.builder(
+            itemCount: widget.themes.length,
+            itemBuilder: (context, index) {
+              return ThemeCard(
+                title: widget.themes[index].title,
+                img: widget.themes[index].img,
+              );
+            },
+            scrollDirection: Axis.horizontal,
           ),
-          SizedBox(
-            child: ListView.builder(
-              itemCount: widget.themes.length,
-              itemBuilder: (context, index) {
-                return ThemeCard(title: widget.themes[index].title, img: widget.themes[index].img,);
-              },
-              scrollDirection: Axis.horizontal,
-            ),
-            height: 100,
-            width: MediaQuery.of(context).size.width - 10,
-          )
+          height: 100,
+          width: MediaQuery.of(context).size.width - 10,
+        )
       ]),
+    );
+  }
+}
+
+
+class PortfolioPage extends StatelessWidget {
+  const PortfolioPage({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      
+    );
+  }
+}
+
+class ThemePage extends StatelessWidget {
+  const ThemePage({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      
+    );
+  }
+}
+
+class StakePage extends StatelessWidget {
+  const StakePage({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      
     );
   }
 }
