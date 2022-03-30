@@ -6,6 +6,7 @@ import 'package:flutterfire_ui/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'theme_card.dart';
+import 'charity_card.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,7 +80,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
-    return SignInScreen(
+    return const SignInScreen(
       providerConfigs: [
         EmailProviderConfiguration(),
         GoogleProviderConfiguration(
@@ -158,9 +159,21 @@ class HomePage extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
-              const Image(
-                image: AssetImage("images/Rectangle5.png"),
-                fit: BoxFit.contain,
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Page(
+                      child: PortfolioPage(),
+                      title: "Portfolio",
+                      )
+                    ),
+                  );
+                },
+                child:const Image(
+                        image: AssetImage("images/Rectangle5.png"),
+                        fit: BoxFit.contain,
+                      ),
               ),
               SizedBox(
                 child: Row(
@@ -174,11 +187,11 @@ class HomePage extends StatelessWidget {
                             WidgetSpan(
                                 child: Icon(
                               Icons.currency_pound_rounded,
-                              size: 20,
+                              size: 30,
                             )),
                             TextSpan(
                                 text: "365",
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(color: Colors.white, fontSize:32)),
                           ])),
                           margin: const EdgeInsets.all(10),
                         )
@@ -193,11 +206,11 @@ class HomePage extends StatelessWidget {
                             WidgetSpan(
                                 child: Icon(
                               Icons.token,
-                              size: 20,
+                              size: 30,
                             )),
                             TextSpan(
                                 text: "100",
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(color: Colors.white, fontSize: 32)),
                           ])),
                           margin: const EdgeInsets.all(10),
                         )
@@ -284,7 +297,30 @@ class PortfolioPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      margin: const EdgeInsets.all(20),
+      child: ListView(
+        children: const <Widget>[ 
+          Text(
+            "Stake Breakdown",
+            style: TextStyle(fontSize:24, fontWeight: FontWeight.w600)
+          ),
+          Image(
+            image: AssetImage("images/PortfolioPieChart.png"),
+            fit: BoxFit.fill,
+            colorBlendMode: BlendMode.modulate
+          ),
+          SizedBox(height: 30),
+          CharityCard(title: "Ripple Africa", subtitle: "LIFE ON LAND", tokens: 40, percentage: 40, color: 0xff2bfec3,),
+          SizedBox(height: 30),
+          CharityCard(title: "CATF", subtitle: "CLIMATE ACTION", tokens: 30, percentage: 30, color: 0xff40ced7),
+          SizedBox(height: 30),
+          CharityCard(title: "EarthJustice", subtitle: "INFRASTRUCTURE", tokens: 20, percentage: 20, color: 0xff41dfc1),
+          SizedBox(height: 30),
+          CharityCard(title: "Solar Sister", subtitle: "CLIMATE ACTION", tokens: 10, percentage: 10, color: 0xffa0feed),
+        ]
+      ),
+    );
   }
 }
 
