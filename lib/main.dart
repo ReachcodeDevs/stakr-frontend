@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
+import 'map.dart';
 import 'home_page.dart';
 import 'portfolio_page.dart';
 import 'donations_page.dart';

@@ -120,7 +120,7 @@ class ThemeCharityCard extends StatelessWidget {
                         description: description,
                         themes: themes,
                         url: url),
-                    title: title,
+                    title: "Charity Details",
                   )),
         );
       },
