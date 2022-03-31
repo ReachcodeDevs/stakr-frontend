@@ -29,6 +29,7 @@ class AuthGate extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return MaterialApp(
+              debugShowCheckedModeBanner: false,
               title: "Stakr",
               theme: ThemeData(
                   brightness: Brightness.dark, fontFamily: 'Montserrat'),
