@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CharityCard extends StatelessWidget {
-  const CharityCard({Key? key, required this.title, required this.subtitle, required this.tokens, required this.percentage, required this.color})
+class StakeCharityCard extends StatelessWidget {
+  const StakeCharityCard({Key? key, required this.title, required this.subtitle, required this.tokens, required this.percentage, required this.color})
       : super(key: key);
 
   final String title;

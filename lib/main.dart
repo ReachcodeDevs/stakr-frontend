@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'theme_card.dart';
-import 'charity_card.dart';
+import 'firebase_options.dart';
+import 'home_page.dart';
+import 'portfolio_page.dart';
+import 'donations_page.dart';
+import 'page.dart' as p;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,13 +27,17 @@ class AuthGate extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return MaterialApp(title: "Stakr", theme: ThemeData(brightness: Brightness.dark, fontFamily: 'Montserrat'), home:const SignInScreen(
-            providerConfigs: [
-              EmailProviderConfiguration(),
-              GoogleProviderConfiguration(
-                  clientId: "1:43501228528:web:0d1651f94bb2bc8ab8cd35")
-            ],
-          ));
+          return MaterialApp(
+              title: "Stakr",
+              theme: ThemeData(
+                  brightness: Brightness.dark, fontFamily: 'Montserrat'),
+              home: const SignInScreen(
+                providerConfigs: [
+                  EmailProviderConfiguration(),
+                  GoogleProviderConfiguration(
+                      clientId: "1:43501228528:web:0d1651f94bb2bc8ab8cd35")
+                ],
+              ));
         }
 
         // Render your application if authenticated
@@ -51,17 +56,17 @@ class TheApp extends StatelessWidget {
     return MaterialApp(
       title: 'Stakr',
       theme: ThemeData(brightness: Brightness.dark, fontFamily: 'Montserrat'),
-      home: const Page(title: "Home", child: HomePage()),
+      home: const p.Page(title: "Home", child: HomePage()),
       routes: <String, WidgetBuilder>{
         '/portfolio': (BuildContext context) =>
-            const Page(child: PortfolioPage(), title: "Stake Breakdown"),
-        '/theme': (BuildContext context) =>
-            const Page(child: ThemePage(), title: ""),
-        '/stake': (BuildContext context) => const Page(
-              child: StakePage(),
-              title: "",
-            ),
-        '/donations': (BuildContext context) => const Page(
+            const p.Page(child: PortfolioPage(), title: "Stake Breakdown"),
+        // '/theme': (BuildContext context) =>
+        //     const Page(child: ThemePage(), title: ""),
+        // '/stake': (BuildContext context) => const p.Page(
+        //       child: StakePage(),
+        //       title: "",
+        //     ),
+        '/donations': (BuildContext context) => const p.Page(
               child: DonationsPage(),
               title: "Donation History",
             )
@@ -87,266 +92,5 @@ class _SignInState extends State<SignIn> {
             clientId: "1:43501228528:web:0d1651f94bb2bc8ab8cd35"),
       ],
     );
-  }
-}
-
-class Page extends StatelessWidget {
-  final Widget child;
-  final String title;
-
-  const Page({Key? key, required this.child, required this.title})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: child,
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: Colors.grey,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Account',
-            backgroundColor: Colors.grey,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet_rounded),
-            label: 'Donations',
-            backgroundColor: Colors.grey,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// class Page extends State {
-//   final String title;
-//   final Widget child;
-
-//   const Page({Key? key, required this.title, required this.child})
-//       : super(key: key);
-
-//   @override
-//   State<Page> createState() => _PageState();
-// }
-
-// class _PageState extends State<Page> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text(widget.title)),
-//       body: widget.child,
-//     );
-//   }
-// }
-
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: <Widget>[
-        Container(
-          margin: const EdgeInsets.all(10),
-          child: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Page(
-                      child: PortfolioPage(),
-                      title: "Portfolio",
-                      )
-                    ),
-                  );
-                },
-                child:const Image(
-                        image: AssetImage("images/Rectangle5.png"),
-                        fit: BoxFit.contain,
-                      ),
-              ),
-              SizedBox(
-                child: Row(
-                  children: [
-                    Column(
-                      children: [
-                        const Text("Total Donated "),
-                        Container(
-                          child: RichText(
-                              text: const TextSpan(children: [
-                            WidgetSpan(
-                                child: Icon(
-                              Icons.currency_pound_rounded,
-                              size: 30,
-                            )),
-                            TextSpan(
-                                text: "365",
-                                style: TextStyle(color: Colors.white, fontSize:32)),
-                          ])),
-                          margin: const EdgeInsets.all(10),
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        const Text("Tokens Staked"),
-                        Container(
-                          child: RichText(
-                              text: const TextSpan(children: [
-                            WidgetSpan(
-                                child: Icon(
-                              Icons.token,
-                              size: 30,
-                            )),
-                            TextSpan(
-                                text: "100",
-                                style: TextStyle(color: Colors.white, fontSize: 32)),
-                          ])),
-                          margin: const EdgeInsets.all(10),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-                width: 210,
-                height: 100,
-              )
-            ],
-          ),
-        ),
-        ThemeCategory(themeName: "Environment", themes: [
-          Theme("Climate Action", "images/climateAction.jpg"),
-          Theme("Life On Land", "images/lifeOnLand.jpg"),
-          Theme("Clean Energy", "images/cleanEnergy.jpg")
-        ]),
-        ThemeCategory(themeName: "Health and Social", themes: [
-          Theme("Education", "images/education.jpg"),
-          Theme("Food Poverty", "images/foodPoverty.jpg"),
-          Theme("Water & Sanitation", "images/water.jpg")
-        ]),
-        ThemeCategory(themeName: "Growth", themes: [
-          Theme("Creating Jobs", "images/creatingJobs.jpg"),
-          Theme("Infra-Structure", "images/infrastructure.jpg"),
-          Theme("Innovation", "images/innovation.jpg")
-        ]),
-      ],
-    );
-  }
-}
-
-class Theme {
-  String title;
-  String img;
-  Theme(this.title, this.img);
-}
-
-class ThemeCategory extends StatefulWidget {
-  final String themeName;
-  final List themes;
-  const ThemeCategory({Key? key, required this.themeName, required this.themes})
-      : super(key: key);
-
-  @override
-  State<ThemeCategory> createState() => _ThemeCategoryState();
-}
-
-class _ThemeCategoryState extends State<ThemeCategory> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 10),
-      child: Column(children: [
-        Container(
-          child: Text(widget.themeName,
-              style:
-                  const TextStyle(fontWeight: FontWeight.w600, fontSize: 24)),
-          alignment: Alignment.centerLeft,
-          margin: const EdgeInsets.fromLTRB(10, 20, 10, 5),
-        ),
-        SizedBox(
-          child: ListView.builder(
-            itemCount: widget.themes.length,
-            itemBuilder: (context, index) {
-              return ThemeCard(
-                title: widget.themes[index].title,
-                img: widget.themes[index].img,
-              );
-            },
-            scrollDirection: Axis.horizontal,
-          ),
-          height: 100,
-          width: MediaQuery.of(context).size.width - 10,
-        )
-      ]),
-    );
-  }
-}
-
-class PortfolioPage extends StatelessWidget {
-  const PortfolioPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(20),
-      child: ListView(
-        children: const <Widget>[ 
-          Text(
-            "Stake Breakdown",
-            style: TextStyle(fontSize:24, fontWeight: FontWeight.w600)
-          ),
-          Image(
-            image: AssetImage("images/PortfolioPieChart.png"),
-            fit: BoxFit.fill,
-            colorBlendMode: BlendMode.modulate
-          ),
-          SizedBox(height: 30),
-          CharityCard(title: "Ripple Africa", subtitle: "LIFE ON LAND", tokens: 40, percentage: 40, color: 0xff2bfec3,),
-          SizedBox(height: 30),
-          CharityCard(title: "CATF", subtitle: "CLIMATE ACTION", tokens: 30, percentage: 30, color: 0xff40ced7),
-          SizedBox(height: 30),
-          CharityCard(title: "EarthJustice", subtitle: "INFRASTRUCTURE", tokens: 20, percentage: 20, color: 0xff41dfc1),
-          SizedBox(height: 30),
-          CharityCard(title: "Solar Sister", subtitle: "CLIMATE ACTION", tokens: 10, percentage: 10, color: 0xffa0feed),
-        ]
-      ),
-    );
-  }
-}
-
-class ThemePage extends StatelessWidget {
-  const ThemePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-class StakePage extends StatelessWidget {
-  const StakePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-class DonationsPage extends StatelessWidget {
-  const DonationsPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
